@@ -2,12 +2,14 @@
 
 window.addEventListener("beforeunload", printData);
 
-var globalObj = {};
+var globalObj = [];
 
 var clockOuts = [];
 
-function clockIn() {
+var nameList = "No Names";
 
+function clockIn() {
+    
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -26,6 +28,8 @@ function clockIn() {
     globalObj[_arrayName] = [_arrayName];
     globalObj[_arrayName].push("Date: " + today);
     globalObj[_arrayName].push("Arrival Time: " + currentTime);
+    
+    updateNames();
 }
 
 function clockOut() {
@@ -74,4 +78,8 @@ function printData() {
     a.href = "data:application/octet-stream," + encodeURIComponent(clockOuts.join("\n"));
     a.download = 'DATA' + today + ', ' + currentTime + '.txt';
     a.click();
+}
+
+function updateNames() {
+    nameList = globalObj.toString();
 }
