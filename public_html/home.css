@@ -1,0 +1,60 @@
+.home-container {
+    width: 100%;
+    display: block;
+    overflow: auto;
+    min-height: 100vh;
+    align-items: center;
+    border-color: var(--dl-color-gray-black);
+    border-width: 2px;
+    flex-direction: column;
+    justify-content: center;
+}
+.home-image {
+    top: 60px;
+    left: 0px;
+    right: 0px;
+    width: 994px;
+    height: 461px;
+    margin: auto;
+    position: absolute;
+    object-fit: cover;
+}
+.home-button {
+    top: 620px;
+    left: 550px;
+    right: 550px;
+    width: 100px;
+    margin: auto;
+    position: absolute;
+    align-self: center;
+    text-align: center;
+    font-family: Times New Roman;
+    border-color: #ffb820;
+    border-width: 2px;
+}
+.home-button1 {
+    top: 530;
+    left: 550px;
+    right: 550px;
+    width: 100px;
+    margin: auto;
+    position: absolute;
+    align-self: center;
+    text-align: center;
+    font-family: Times New Roman;
+    border-color: #053676;
+    border-width: 2px;
+}
+.home-button2 {
+    top: 480;
+    left: 550px;
+    right: 550px;
+    width: 100px;
+    margin: auto;
+    position: absolute;
+    align-self: center;
+    text-align: center;
+    font-family: Times New Roman;
+    border-color: #053676;
+    border-width: 2px;
+}
