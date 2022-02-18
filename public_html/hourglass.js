@@ -1,15 +1,16 @@
-//window.onbeforeunload = (printData);
+if (dataSaved === false) {
+    window.addEventListener("beforeunload", printData);
+} 
 
-window.addEventListener("beforeunload", printData);
+var dataSaved = false;
 
-var globalObj = [];
+
+var clockIns = [];
 
 var clockOuts = [];
 
-var nameList = "No Names";
-
 function clockIn() {
-    
+
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -25,12 +26,18 @@ function clockIn() {
 
     var _arrayName = prompt('Please Enter Your First And Last Name').toUpperCase();
 
-    globalObj[_arrayName] = [_arrayName];
-    globalObj[_arrayName].push("Date: " + today);
-    globalObj[_arrayName].push("Arrival Time: " + currentTime);
+    clockIns[_arrayName] = [_arrayName];
+    clockIns[_arrayName].push("Date: " + today);
+    clockIns[_arrayName].push("Arrival Time: " + currentTime);
     
-    updateNames();
-}
+    var name = document.createElement('dt');
+    name.id = [_arrayName];
+    name.className = "home-dt";
+    name.style.textDecoration = 'none';
+    name.appendChild(document.createTextNode([_arrayName]));
+ 
+    document.querySelector('dl').appendChild(name);
+}//put a clockIns array, have it detect when someone clocks out, and delete, keep files for those still clocked in on close, and make print with clockOuts
 
 function clockOut() {
 
@@ -48,19 +55,33 @@ function clockOut() {
     currentTime = hour + ':' + minute;
 
     var _arrayName = prompt("Please enter your first and last name.").toUpperCase(); /*should input "return" data from addName()
-     based on the name input through the prompt*/
-    globalObj[_arrayName].push("Departure Time: " + currentTime);
+     based on the name input through the prompt*/ //add a delete method to remove names from clockedIn file of names when clocking out
+    clockIns[_arrayName].push("Departure Time: " + currentTime);
     var spaceUse = prompt("What did you use the space for today?");
-    globalObj[_arrayName].push("Usage of space: " + spaceUse);
+    clockIns[_arrayName].push("Usage of space: " + spaceUse);
     var toolUse = prompt("What tools did you use today?");
-    globalObj[_arrayName].push("Tools used: " + toolUse);
-    globalObj[_arrayName] = globalObj[_arrayName].join(" | ");
+    clockIns[_arrayName].push("Tools used: " + toolUse);
 
-    clockOuts.push(globalObj[_arrayName]);
+    clockIns[_arrayName] = clockIns[_arrayName].join(" | ");
+
+    clockOuts.push(clockIns[_arrayName]);
+    
+    //clockOuts[_arrayName] = clockOuts[_arrayName].join(" | ");
+    
+    delete clockIns[_arrayName];
+        
+//    let names = document.getElementById('clockedInList');
+//    let removedName = document.querySelector('dt:[_arrayName]');
+//    names.removeChild(removedNames);
+
+
+    var removedName = document.getElementById([_arrayName]);
+    removedName.remove();
+
 }
 
 function printData() {
-
+  //create a FOR loop to turn every index item in clockedIn into a string with .join
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -74,12 +95,33 @@ function printData() {
 
     currentTime = hour + ':' + minute;
 
+
+
+
+
     let a = document.createElement('a');
-    a.href = "data:application/octet-stream," + encodeURIComponent(clockOuts.join("\n"));
-    a.download = 'DATA' + today + ', ' + currentTime + '.txt';
+    a.href = "data:application/octet-stream," + encodeURIComponent(clockIns.join("\n"));
+    a.download = 'INCOMPLETE DATA' + today + ', ' + currentTime + '.txt';
     a.click();
+
+
+
+
+
+    let b = document.createElement('b');
+    b.href = "data:application/octet-stream," + encodeURIComponent(clockOuts.join("\n"));
+    b.download = 'DATA' + today + ', ' + currentTime + '.txt';
+    b.click();
+    
+    var dataSaved = true;
+
+
 }
 
-function updateNames() {
-    nameList = globalObj.toString();
-}
+
+//make a test for whetheror not the program has been saved
+
+
+
+
+
