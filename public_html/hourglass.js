@@ -1,13 +1,27 @@
-if (dataSaved === false) {
-    window.addEventListener("beforeunload", printData);
-} 
+function goodbye(e) {
+    printData();
+    
+        if(!e) e = window.event;
+        //e.cancelBubble is supported by IE - this will kill the bubbling process.
+        e.cancelBubble = true;
+        e.returnValue = 'You sure you want to leave?'; //This is displayed on the dialog
+
+        //e.stopPropagation works in Firefox.
+        if (e.stopPropagation) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
+    }
+window.onbeforeunload=goodbye;
 
 var dataSaved = false;
 
 
-var clockIns = [];
+var clockIns = {};
 
 var clockOuts = [];
+
+let aList = document.createElement('a');
 
 function clockIn() {
 
@@ -66,18 +80,12 @@ function clockOut() {
 
     clockOuts.push(clockIns[_arrayName]);
     
-    //clockOuts[_arrayName] = clockOuts[_arrayName].join(" | ");
+    
     
     delete clockIns[_arrayName];
-        
-//    let names = document.getElementById('clockedInList');
-//    let removedName = document.querySelector('dt:[_arrayName]');
-//    names.removeChild(removedNames);
-
 
     var removedName = document.getElementById([_arrayName]);
     removedName.remove();
-
 }
 
 function printData() {
@@ -95,25 +103,16 @@ function printData() {
 
     currentTime = hour + ':' + minute;
 
-
-
-
-
-    let a = document.createElement('a');
-    a.href = "data:application/octet-stream," + encodeURIComponent(clockIns.join("\n"));
-    a.download = 'INCOMPLETE DATA' + today + ', ' + currentTime + '.txt';
-    a.click();
-
-
-
-
-
-    let b = document.createElement('b');
-    b.href = "data:application/octet-stream," + encodeURIComponent(clockOuts.join("\n"));
-    b.download = 'DATA' + today + ', ' + currentTime + '.txt';
-    b.click();
+    clockIns = Object.values(clockIns).map(value => `${value}`).join("p");
     
-    var dataSaved = true;
+    clockIns = clockIns.replaceAll('p', '\n');
+    clockIns = clockIns.replaceAll(',', ' | ');
+    
+    aList.href = "data:application/octet-stream," + "Incomplete Data:" + "\n" + encodeURIComponent(clockIns) + "\n" + "\n" + "Complete Data:" + "\n" + encodeURIComponent(clockOuts.join("\n"));
+    aList.download = 'DATA' + today + ', ' + currentTime + '.txt';
+    aList.click();
+    
+//    var dataSaved = true;
 
 
 }
