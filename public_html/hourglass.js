@@ -1,17 +1,20 @@
 function goodbye(e) {
-    printData();
+    if (dataSaved !== true) {
+        printData();
     
-        if(!e) e = window.event;
-        //e.cancelBubble is supported by IE - this will kill the bubbling process.
-        e.cancelBubble = true;
-        e.returnValue = 'You sure you want to leave?'; //This is displayed on the dialog
+            if(!e) e = window.event;
+            //e.cancelBubble is supported by IE - this will kill the bubbling process.
+            e.cancelBubble = true;
+            e.returnValue = 'You sure you want to leave?'; //This is displayed on the dialog
 
-        //e.stopPropagation works in Firefox.
-        if (e.stopPropagation) {
-            e.stopPropagation();
-            e.preventDefault();
+            //e.stopPropagation works in Firefox.
+            if (e.stopPropagation) {
+                e.stopPropagation();
+                e.preventDefault();
         }
     }
+}
+
 window.onbeforeunload=goodbye;
 
 var dataSaved = false;
@@ -41,8 +44,8 @@ function clockIn() {
     var _arrayName = prompt('Please Enter Your First And Last Name').toUpperCase();
 
     clockIns[_arrayName] = [_arrayName];
-    clockIns[_arrayName].push("Date: " + today);
-    clockIns[_arrayName].push("Arrival Time: " + currentTime);
+    clockIns[_arrayName].push(today);
+    clockIns[_arrayName].push(currentTime);
     
     var name = document.createElement('dt');
     name.id = [_arrayName];
@@ -70,13 +73,13 @@ function clockOut() {
 
     var _arrayName = prompt("Please enter your first and last name.").toUpperCase(); /*should input "return" data from addName()
      based on the name input through the prompt*/ //add a delete method to remove names from clockedIn file of names when clocking out
-    clockIns[_arrayName].push("Departure Time: " + currentTime);
+    clockIns[_arrayName].push(currentTime);
     var spaceUse = prompt("What did you use the space for today?");
-    clockIns[_arrayName].push("Usage of space: " + spaceUse);
+    clockIns[_arrayName].push(spaceUse);
     var toolUse = prompt("What tools did you use today?");
-    clockIns[_arrayName].push("Tools used: " + toolUse);
+    clockIns[_arrayName].push(toolUse);
 
-    clockIns[_arrayName] = clockIns[_arrayName].join(" | ");
+    clockIns[_arrayName] = clockIns[_arrayName].join(",");
 
     clockOuts.push(clockIns[_arrayName]);
     
@@ -106,13 +109,19 @@ function printData() {
     clockIns = Object.values(clockIns).map(value => `${value}`).join("p");
     
     clockIns = clockIns.replaceAll('p', '\n');
-    clockIns = clockIns.replaceAll(',', ' | ');
+    //clockIns = clockIns.replaceAll(',', ' | ');
     
-    aList.href = "data:application/octet-stream," + "Incomplete Data:" + "\n" + encodeURIComponent(clockIns) + "\n" + "\n" + "Complete Data:" + "\n" + encodeURIComponent(clockOuts.join("\n"));
-    aList.download = 'DATA' + today + ', ' + currentTime + '.txt';
+    aList.href = "data:application/octet-stream," + encodeURIComponent(clockOuts.join("\n"));
+    aList.download = 'COMPLETE_DATA' + today + ', ' + currentTime + '.txt';
     aList.click();
     
-//    var dataSaved = true;
+    if (clockIns.length > 0) {
+        aList.href = "data:application/octet-stream," + encodeURIComponent(clockIns);
+        aList.download = 'INCOMPLETE_DATA' + today + ', ' + currentTime + '.txt';
+        aList.click();
+    }
+    
+dataSaved = true;
 
 
 }
