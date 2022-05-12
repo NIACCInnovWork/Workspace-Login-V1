@@ -112,12 +112,12 @@ function printData() {
     //clockIns = clockIns.replaceAll(',', ' | ');
     
     aList.href = "data:application/octet-stream," + encodeURIComponent(clockOuts.join("\n"));
-    aList.download = 'COMPLETE_DATA' + today + ', ' + currentTime + '.txt';
+    aList.download = 'COMPLETE_DATA' + ', ' + today + ', ' + currentTime + '.txt';
     aList.click();
     
     if (clockIns.length > 0) {
         aList.href = "data:application/octet-stream," + encodeURIComponent(clockIns);
-        aList.download = 'INCOMPLETE_DATA' + today + ', ' + currentTime + '.txt';
+        aList.download = 'INCOMPLETE_DATA' + ', ' + today + ', ' + currentTime + '.txt';
         aList.click();
     }
     
@@ -125,11 +125,3 @@ dataSaved = true;
 
 
 }
-
-
-//make a test for whetheror not the program has been saved
-
-
-
-
-
