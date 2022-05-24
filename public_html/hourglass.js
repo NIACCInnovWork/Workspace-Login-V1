@@ -79,7 +79,7 @@ function clockOut() {
     var toolUse = prompt("What tools did you use today?");
     clockIns[_arrayName].push(toolUse);
 
-    clockIns[_arrayName] = clockIns[_arrayName].join(",");
+    clockIns[_arrayName] = clockIns[_arrayName].join("|");
 
     clockOuts.push(clockIns[_arrayName]);
     
