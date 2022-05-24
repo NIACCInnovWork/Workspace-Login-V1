@@ -23,11 +23,11 @@ html {
   justify-content: center;
 }
 .home-image {
-  top: 30px;
+  top: 0px;
   left: auto;
   right: auto;
   width: auto;
-  height: 50%;
+  height: 63%;
   z-index: 20;
   position: absolute;
   align-self: center;
