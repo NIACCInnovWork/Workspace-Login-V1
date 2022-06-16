@@ -111,9 +111,12 @@ function printData() {
     clockIns = clockIns.replaceAll('p', '\n');
     //clockIns = clockIns.replaceAll(',', ' | ');
     
-    aList.href = "data:application/octet-stream," + encodeURIComponent(clockOuts.join("\n"));
-    aList.download = 'COMPLETE_DATA' + ', ' + today + ', ' + currentTime + '.txt';
-    aList.click();
+   
+    if (clockOuts.length > 0) {
+        aList.href = "data:application/octet-stream," + encodeURIComponent(clockOuts.join("\n"));
+        aList.download = 'COMPLETE_DATA' + ', ' + today + ', ' + currentTime + '.txt';
+        aList.click(); 
+    }
     
     if (clockIns.length > 0) {
         aList.href = "data:application/octet-stream," + encodeURIComponent(clockIns);
